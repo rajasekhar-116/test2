@@ -37,7 +37,7 @@
 			            <environment>${mule_env}</environment>
 			            <target>Cloudhub-US-East-2</target>
 			            <server>mycompany Repository</server>
-			            <applicationName>${project.artifactId}-${mule_env}</applicationName>
+			            <applicationName>${project.artifactId}</applicationName>
 			            <replicas>1</replicas>
 			            <vCores>0.1</vCores>
 			            <deploymentSettings>
