@@ -34,10 +34,10 @@
 			        <cloudhub2Deployment>
 			            <uri>https://anypoint.mulesoft.com</uri>
 			            <provider>MC</provider>
-			            <environment>${env}</environment>
+			            <environment>${mule_env}</environment>
 			            <target>Cloudhub-US-East-2</target>
 			            <server>mycompany Repository</server>
-			            <applicationName>${project.artifactId}-${env}</applicationName>
+			            <applicationName>${project.artifactId}-${mule_env}</applicationName>
 			            <replicas>1</replicas>
 			            <vCores>0.1</vCores>
 			            <deploymentSettings>
