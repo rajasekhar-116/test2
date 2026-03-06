@@ -37,8 +37,8 @@ jobs:
       - name: Publish to Exchange
         run: |
           mvn deploy --settings .maven/settings.xml -DskipMunitTests \
-          -Dclient.id="${{ vars.connected_app_client_id }}" \
-          -Dclient.secret="${{ secrets.CONNECTED_APP_CLIENT_SECRET }}" \
+          -Dconnected_app_client_id="${{ vars.connected_app_client_id }}" \
+          -Dconnected_app_client_secret="${{ secrets.CONNECTED_APP_CLIENT_SECRET }}" \
           -Denv="${{ env.mule_env }}" \
           -DclientId="${{ vars.clientId }}" \
           -DclientSecret="${{ secrets.CLIENTSECRET }}"
