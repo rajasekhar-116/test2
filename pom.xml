@@ -30,21 +30,40 @@
 				<version>${mule.maven.plugin.version}</version>
 				<extensions>true</extensions>
 				<configuration>
-			        <classifier>mule-application</classifier>
-			        <cloudhub2Deployment>
-			            <uri>https://anypoint.mulesoft.com</uri>
-			            <provider>MC</provider>
-			            <environment>${mule_env}</environment>
-			            <target>Cloudhub-US-East-2</target>
-			            <server>mycompany Repository</server>
-			            <applicationName>${project.artifactId}</applicationName>
-			            <replicas>1</replicas>
-			            <vCores>0.1</vCores>
-			            <deploymentSettings>
-			                <generateDefaultPublicUrl>true</generateDefaultPublicUrl>
-			            </deploymentSettings>
-			        </cloudhub2Deployment>
-			    </configuration>
+          <cloudhub2Deployment>
+            <uri>https://anypoint.mulesoft.com</uri>
+            <provider>MC</provider>
+            <environment>${env}</environment>
+            <target>${target}</target>
+            <!-- <muleVersion>4.9.0</muleVersion> -->
+            <server>mycompany Repository</server>
+            <applicationName>${project.artifactId}-${envs}</applicationName>
+            <replicas>1</replicas>
+            <vCores>0.1</vCores>
+            <properties>
+              <env>${env}</env>
+              <clientId>${clientId}</clientId>
+              <anypoint.platform.client_id>${anypoint.platform.client_id}</anypoint.platform.client_id>
+              <anypoint.platform.base_uri>${anypoint.platform.base_uri}</anypoint.platform.base_uri>
+              <anypoint.platform.analytics_base_uri>${anypoint.platform.analytics_base_uri}</anypoint.platform.analytics_base_uri>
+            </properties>
+            <secureProperties>
+              <anypoint.platform.client_secret>${anypoint.platform.client_secret}</anypoint.platform.client_secret>
+              <clientSecret>${clientSecret}</clientSecret>
+              <mule.encryptionKey>${mule.encryptionKey}</mule.encryptionKey>
+            </secureProperties>
+            <deploymentSettings>
+              <http>
+                <inbound>
+                  <forwardSslSession>false</forwardSslSession>
+                  <lastMileSecurity>false</lastMileSecurity>
+                </inbound>
+              </http>
+              <generateDefaultPublicUrl>true</generateDefaultPublicUrl>
+            </deploymentSettings>
+          </cloudhub2Deployment>
+          <classifier>mule-application</classifier>
+        </configuration>
 			</plugin>
 		</plugins>
 	</build>

@@ -2,7 +2,7 @@ name: Publish to Exchange & Deploy to CH2.0
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ main,dev ]
     
 jobs:         
   build:
@@ -23,24 +23,38 @@ jobs:
         with:
           distribution: "zulu"
           java-version: 17
-      
-      - name: Publish to Exchange
-        run: |
-          mvn deploy --settings .maven/settings.xml -DskipMunitTests \
-          -Dclient.id="${{ secrets.CONNECTED_APP_CLIENT_ID }}" \
-          -Dclient.secret="${{ secrets.CONNECTED_APP_CLIENT_SECRET }}"
-
+          
       - name: Set CloudHub Environment
         run: |
           if [ "${{ github.ref_name }}" = "main" ]; then
             echo "mule_env=Production" >> $GITHUB_ENV
+            echo "envs=production" >> $GITHUB_ENV
           else
             echo "mule_env=Sandbox" >> $GITHUB_ENV
+            echo "envs=sandbox" >> $GITHUB_ENV
           fi
+      
+      - name: Publish to Exchange
+        run: |
+          mvn deploy --settings .maven/settings.xml -DskipMunitTests \
+          -Dclient.id="${{ vars.connected_app_client_id }}" \
+          -Dclient.secret="${{ secrets.CONNECTED_APP_CLIENT_SECRET }}" \
+          -Denv="${{ env.mule_env }}" \
+          -DclientId="${{ vars.clientId }}" \
+          -DclientSecret="${{ secrets.CLIENTSECRET }}"
 
       - name: Deploy to CloudHub 2.0
         run: |
           mvn deploy --settings .maven/settings.xml -DskipMunitTests -DmuleDeploy \
-          -Dclient.id="${{ secrets.CONNECTED_APP_CLIENT_ID }}" \
-          -Dclient.secret="${{ secrets.CONNECTED_APP_CLIENT_SECRET }}" \
-          -Dmule_env="${{ env.mule_env }}"
+          -Dconnected_app_client_id="${{ vars.connected_app_client_id }}" \
+          -Dconnected_app_client_secret="${{ secrets.CONNECTED_APP_CLIENT_SECRET }}" \
+          -Denv="${{ env.mule_env }}" \
+          -Denvs="${{ env.envs }}" \
+          -Danypoint.platform.client_id}="${{ vars.anypoint_platform_client_id }}" \
+          -Danypoint.platform.client_secret="${{ secrets.ANYPOINT_PLATFORM_CLIENT_SECRET }}" \
+          -DclientId="${{ vars.clientId }}" \
+          -DclientSecret="${{ secrets.CLIENTSECRET }}" \
+          -Dmule.encryptionKey="${{ secrets.MULE_ENCRYPTIONKEY }}" \
+          -Danypoint.platform.base_uri="${{ vars.anypoint_platform_base_uri }}" \
+          -Danypoint.platform.analytics_base_uri="${{ vars.anypoint_platform_analytics_base_uri }}" \
+          -Dtarget="${{ vars.target }}"
