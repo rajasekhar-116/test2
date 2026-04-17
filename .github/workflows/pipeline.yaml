@@ -30,7 +30,7 @@ jobs:
             echo "mule_env=Sandbox" >> $GITHUB_ENV
             echo "envs=sandbox" >> $GITHUB_ENV
           else
-            echo "mule_env=Sandbox" >> $GITHUB_ENV
+            echo "mule_env=Dev" >> $GITHUB_ENV
             echo "envs=sandbox" >> $GITHUB_ENV
           fi
       
