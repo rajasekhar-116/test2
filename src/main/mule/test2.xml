@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="466c8dac-c333-48d1-9c6c-f0759ea650e4" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="test2Flow" doc:id="a1446934-eb2a-434c-9ef5-2743c29598af" >
+		<http:listener doc:name="Listener" doc:id="cdb48406-b527-44e2-b849-ff0755074cce" config-ref="HTTP_Listener_config" path="/test"/>
+		<set-payload value='#["Hello muley"]' doc:name="Set Payload" doc:id="e54a8afd-cccb-4171-8354-5a5659ed856c" />
+		<logger level="INFO" doc:name="Logger" doc:id="00653a26-9a4a-44f3-9ff4-511224ae928f" message="#[payload]" category="Flow Tracking"/>
+	</flow>
+</mule>
